@@ -1,0 +1,184 @@
+#https://www.amcharts.com/demos/multiple-panels/
+#https://docs.amcharts.com/3/javascriptstockchart/StockGraph
+
+chartData:
+  -
+    close: 113
+    datezzz: {y: 2016, m: 9, d: 17}
+    date: "2016-09-07"
+    high: 116
+    low: 120
+    open: 100
+    value: 133
+    volume: 123
+  -
+    close: 210
+    datezzz: {y: 2016, m: 9, d: 22}
+    date: "2016-12-01"
+    high: 66
+    low: 33
+    open: 10
+    value: 15
+    volume: 96
+  -
+    close: 222
+    datezzz: {y: 2016, m: 9, d: 22}
+    date: "2016-12-24"
+    high: 88
+    low: 99
+    open: 120
+    value: 155
+    volume: 66
+
+id: chart_stock_example
+style: "width: 800px; height:600px;"
+data:
+  type: stock
+  theme: light
+  dataDateFormat": "YYYY-MM-DD"
+  dataSets:
+    -
+      fieldMappings:
+        -
+          "fromField": "open"
+          "toField": "open"
+        -
+          "fromField": "close"
+          "toField": "close"
+        -
+          "fromField": "high"
+          "toField": "high"
+        -
+          "fromField": "low"
+          "toField": "low"
+        -
+          "fromField": "volume"
+          "toField": "volume"
+        -
+          "fromField": "value"
+          "toField": "value"
+      "color": "#7f8da9"
+      dataProvider: chartData
+      "title": "Pulse"
+      "categoryField": "date"
+    -
+      fieldMappings:
+        -
+          "fromField": "value"
+          "toField": "value"
+      "color": "#fac314"
+      "dataProvider": chartData
+      "compared": true
+      "title": "Minutes"
+      "categoryField": "date"
+  panels:
+    -
+      "title": "Training"
+      "showCategoryAxis": false
+      "percentHeight": 70
+      "valueAxes":
+        -
+          "id": "v1"
+          "dashLength": 5
+      "categoryAxis":
+        "dashLength": 5
+      "stockGraphs":
+        -
+          "type": "candlestick"
+          "id": "g1"
+          "openField": "open"
+          "closeField": "close"
+          "highField": "high"
+          "lowField": "low"
+          "valueField": "close"
+          "lineColor": "#7f8da9"
+          "fillColors": "#7f8da9"
+          "negativeLineColor": "#db4c3c"
+          "negativeFillColors": "#db4c3c"
+          "fillAlphas": 1
+          "useDataSetColors": false
+          "comparable": true
+          "compareField": "value"
+          "showBalloon": false
+          "proCandlesticks": true
+      "stockLegend":
+        "valueTextRegular": undefined
+        "periodValueTextComparing": "[[percents.value.close]]%"
+    -
+      "title": "Volume"
+      "percentHeight": 30
+      "marginTop": 1
+      "showCategoryAxis": true
+      "valueAxes":
+        -
+          "dashLength": 5
+      "categoryAxis":
+        "dashLength": 5
+      "stockGraphs":
+        -
+          "valueField": "high"
+          "type": "line"
+          "showBalloon": true
+          "fillAlphas": 0.3
+          "fillColors": "#7f8da9"
+          visibleInLegend: true
+      "stockLegend":
+        "markerType": "none"
+        "markerSize": 0
+        "labelText": "Temp"
+        "periodValueTextRegular": "[[value.close]]"
+#    -
+#      "title": "Volume2"
+#      "percentHeight": 40
+#      "marginTop": 1
+#      "showCategoryAxis": true
+#      "valueAxes":
+#        -
+#          "dashLength": 5
+#      "categoryAxis":
+#        "dashLength": 5
+#      "stockGraphs":
+#        -
+#          "valueField": "close"
+#          "type": "column"
+#          "showBalloon": true
+#          "fillAlphas": 0.3
+#      "stockLegend":
+#        "markerType": "none"
+#        "markerSize": 0
+#        "labelText": ""
+#        "periodValueTextRegular": "[[value.close]]"
+        
+        
+  "chartScrollbarSettings":
+    "graph": "g1"
+    "graphType": "line"
+    "usePeriod": "WW"
+  "chartCursorSettings":
+    "valueLineBalloonEnabled": true
+    "valueLineEnabled": true
+  "periodSelector":
+    "position": "bottom"
+    "periods":
+      -
+        "period": "DD"
+        "count": 10
+        "label": "10 days"
+      -
+        "period": "MM"
+        "selected": true
+        "count": 1
+        "label": "1 month"
+      -
+        "period": "YYYY"
+        "count": 1
+        "label": "1 year"
+      -
+        "period": "YTD"
+        "label": "YTD"
+      -
+        "period": "MAX"
+        "label": "MAX"
+  "export":
+    "enabled": true
+ 
