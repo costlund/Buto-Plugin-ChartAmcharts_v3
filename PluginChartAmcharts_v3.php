@@ -10,7 +10,7 @@ Visit <a href="http://www.amcharts.com/" target="_blank">www.amcharts.com</a> fo
 class PluginChartAmcharts_v3{
   /**
   <p>
-  Including Javascript in html/head section (required).
+  Including Javascript in html/head section (required). Also PluginChartAmcharts_v3 is included if using sync widget.
   </p>
   */
   public static function widget_include(){
@@ -18,9 +18,9 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amcharts.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/serial.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amstock.js', 'type' => 'text/javascript'));
+    $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js', 'type' => 'text/javascript'));
     wfDocument::renderElement($element);
   }
-
   /**
   <p>
   Stock example.
@@ -79,9 +79,21 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', 'var '.$data->get('id').' = AmCharts.makeChart("'.$data->get('id').'", '.$json.');', array('type' => 'text/javascript'));
     wfDocument::renderElement($element);
   }
+  /**
+   * Sync graphs.
+   */
   public function widget_sync($data){
+    wfPlugin::includeonce('wf/array');
+    $data = new PluginWfArray($data);
     $element = array();
-    $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js', 'type' => 'text/javascript'));
+    $code = "var my_charts = [];";
+    if($data->get('data/charts')){
+      foreach ($data->get('data/charts') as $key => $value) {
+        $code .= "my_charts.push($value);";
+      }
+    }
+    $code .= "PluginChartAmcharts_v3.sync(my_charts);";
+    $element[] = wfDocument::createHtmlElement('script', $code);
     wfDocument::renderElement($element);
   }
 
