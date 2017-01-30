@@ -23,10 +23,10 @@ class PluginChartAmcharts_v3{
   }
   /**
   <p>
-  Stock example.
+  Stock chart with example data. Remve the chartDate param to retrieve generated data.
   </p>
    */
-  public function widget_stock_example($data){
+  public function widget_stock($data){
     wfPlugin::includeonce('wf/array');
     if(isset($data['data'])){
       $data = new PluginWfArray($data['data']);
@@ -40,10 +40,8 @@ class PluginChartAmcharts_v3{
     }
     $element = array();
     $element[] = wfDocument::createHtmlElement('div', '', array('id' => $data->get('id'), 'style' => $data->get('style')));
-    $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js', 'type' => 'text/javascript'));
     if($data->get('chartData')){
       $json = json_encode($data->get('chartData'));
-      //$element[] = wfDocument::createHtmlElement('script', "var chartData = PluginChartAmcharts_v3.handleDataProvider($json);", array('type' => 'text/javascript'));
       $element[] = wfDocument::createHtmlElement('script', "var chartData = $json;", array('type' => 'text/javascript'));
     }else{
       /**
@@ -58,10 +56,11 @@ class PluginChartAmcharts_v3{
   }
   /**
   <p>
-  Serial example.
+  Serial chart with exampel data.
   </p>
    */
-  public function widget_serial_example($data){
+  public function widget_serial($data){
+    wfHelp::yml_dump($data);
     wfPlugin::includeonce('wf/array');
     if(isset($data['data'])){
       $data = new PluginWfArray($data['data']);
