@@ -1,7 +1,7 @@
 <?php
 /**
 <p>
-Amcharts.
+Amcharts..
 </p>
 <p>
 Visit <a href="http://www.amcharts.com/" target="_blank">www.amcharts.com</a> for more info.
