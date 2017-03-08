@@ -60,7 +60,6 @@ class PluginChartAmcharts_v3{
   </p>
    */
   public function widget_serial($data){
-    wfHelp::yml_dump($data);
     wfPlugin::includeonce('wf/array');
     if(isset($data['data'])){
       $data = new PluginWfArray($data['data']);
