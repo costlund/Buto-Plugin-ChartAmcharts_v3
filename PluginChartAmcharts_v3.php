@@ -57,10 +57,10 @@ class PluginChartAmcharts_v3{
   /**
   <p>
   Serial chart with exampel data.
+  Chart data cound be put in $data or retrieved via sql query.
   </p>
    */
   public function widget_serial($data){
-    wfHelp::yml_dump($data);
     wfPlugin::includeonce('wf/array');
     if(isset($data['data'])){
       $data = new PluginWfArray($data['data']);
@@ -72,10 +72,44 @@ class PluginChartAmcharts_v3{
       $widget = wfSettings::getSettingsAsObject('/plugin/chart/amcharts_v3/default/widget.serial_example.yml');
       $data->set(null, $widget->get());
     }
+    /**
+     * Get data from MySql.
+     */
+    if($data->get('mysql_conn') && $data->get('mysql_query')){
+      if($data->get('mysql_method_before')){
+        /**
+         * Run method before for some modification about MySql.
+         */
+        wfPlugin::includeonce($data->get('mysql_method_before/plugin'));
+        $obj = wfSettings::getPluginObj($data->get('mysql_method_before/plugin'));
+        $method = $data->get('mysql_method_before/method');
+        $data->set(null, $obj->$method($data->get()));
+      }
+      wfPlugin::includeonce('wf/mysql');
+      $mysql =new PluginWfMysql();
+      $mysql->open($data->get('mysql_conn'));
+      $dataProvider = $mysql->runSql($data->get('mysql_query'), null);
+      $data->set('chart/data/dataProvider', $dataProvider['data']);
+    }
+    /**
+     * Method before elements.
+     */
+    if($data->get('method_before')){
+      /**
+       * Run method before for some modification about MySql.
+       */
+      wfPlugin::includeonce($data->get('method_before/plugin'));
+      $obj = wfSettings::getPluginObj($data->get('method_before/plugin'));
+      $method = $data->get('method_before/method');
+      $data->set(null, $obj->$method($data->get()));
+    }
+    /**
+     * Create elements.
+     */
     $element = array();
-    $element[] = wfDocument::createHtmlElement('div', '', array('id' => $data->get('id'), 'style' => $data->get('style')));
-    $json = json_encode($data->get('data'));
-    $element[] = wfDocument::createHtmlElement('script', 'var '.$data->get('id').' = AmCharts.makeChart("'.$data->get('id').'", '.$json.');', array('type' => 'text/javascript'));
+    $element[] = wfDocument::createHtmlElement('div', '', array('id' => $data->get('chart/id'), 'style' => $data->get('chart/style')));
+    $json = json_encode($data->get('chart/data'));
+    $element[] = wfDocument::createHtmlElement('script', 'var '.$data->get('chart/id').' = AmCharts.makeChart("'.$data->get('chart/id').'", '.$json.');', array('type' => 'text/javascript'));
     wfDocument::renderElement($element);
   }
   /**
