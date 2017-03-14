@@ -3,19 +3,25 @@
 <p>
 Amcharts.
 </p>
+<p>If purchasing a commercial license one could just point at the installation path in the include widget.</p>
 <p>
 Visit <a href="http://www.amcharts.com/" target="_blank">www.amcharts.com</a> for more info.
 </p>
  */
 class PluginChartAmcharts_v3{
   /**
+  <p>Set the path to commercial license folder in the commercial_license_path parameter to remove the text Js chart by amCharts. The path could look like "/js-librarys/amcharts_3.21.0".</p>
   <p>
   Including Javascript in html/head section (required). Also PluginChartAmcharts_v3 is included if using sync widget.
   </p>
   */
-  public static function widget_include(){
+  public static function widget_include($data){
+    $path = '/plugin/chart/amcharts_v3';
     $element = array();
-    $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amcharts.js', 'type' => 'text/javascript'));
+    if(wfArray::get($data, 'data/commercial_license_path')){
+      $path = wfArray::get($data, 'data/commercial_license_path');
+    }
+    $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/amcharts.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/serial.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amstock.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js', 'type' => 'text/javascript'));
@@ -57,6 +63,7 @@ class PluginChartAmcharts_v3{
   /**
   <p>
   Serial chart with exampel data.
+  Chart data cound be put in $data or retrieved via sql query.
   </p>
    */
   public function widget_serial($data){
@@ -71,10 +78,44 @@ class PluginChartAmcharts_v3{
       $widget = wfSettings::getSettingsAsObject('/plugin/chart/amcharts_v3/default/widget.serial_example.yml');
       $data->set(null, $widget->get());
     }
+    /**
+     * Get data from MySql.
+     */
+    if($data->get('mysql_conn') && $data->get('mysql_query')){
+      if($data->get('mysql_method_before')){
+        /**
+         * Run method before for some modification about MySql.
+         */
+        wfPlugin::includeonce($data->get('mysql_method_before/plugin'));
+        $obj = wfSettings::getPluginObj($data->get('mysql_method_before/plugin'));
+        $method = $data->get('mysql_method_before/method');
+        $data->set(null, $obj->$method($data->get()));
+      }
+      wfPlugin::includeonce('wf/mysql');
+      $mysql =new PluginWfMysql();
+      $mysql->open($data->get('mysql_conn'));
+      $dataProvider = $mysql->runSql($data->get('mysql_query'), null);
+      $data->set('chart/data/dataProvider', $dataProvider['data']);
+    }
+    /**
+     * Method before elements.
+     */
+    if($data->get('method_before')){
+      /**
+       * Run method before for some modification about MySql.
+       */
+      wfPlugin::includeonce($data->get('method_before/plugin'));
+      $obj = wfSettings::getPluginObj($data->get('method_before/plugin'));
+      $method = $data->get('method_before/method');
+      $data->set(null, $obj->$method($data->get()));
+    }
+    /**
+     * Create elements.
+     */
     $element = array();
-    $element[] = wfDocument::createHtmlElement('div', '', array('id' => $data->get('id'), 'style' => $data->get('style')));
-    $json = json_encode($data->get('data'));
-    $element[] = wfDocument::createHtmlElement('script', 'var '.$data->get('id').' = AmCharts.makeChart("'.$data->get('id').'", '.$json.');', array('type' => 'text/javascript'));
+    $element[] = wfDocument::createHtmlElement('div', '', array('id' => $data->get('chart/id'), 'style' => $data->get('chart/style')));
+    $json = json_encode($data->get('chart/data'));
+    $element[] = wfDocument::createHtmlElement('script', 'var '.$data->get('chart/id').' = AmCharts.makeChart("'.$data->get('chart/id').'", '.$json.');', array('type' => 'text/javascript'));
     wfDocument::renderElement($element);
   }
   /**
@@ -94,7 +135,4 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', $code);
     wfDocument::renderElement($element);
   }
-
-  
-  
 }
