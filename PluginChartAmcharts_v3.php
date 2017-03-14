@@ -1,21 +1,27 @@
 <?php
 /**
 <p>
-Amcharts..
+Amcharts.
 </p>
+<p>If purchasing a commercial license one could just point at the installation path in the include widget.</p>
 <p>
 Visit <a href="http://www.amcharts.com/" target="_blank">www.amcharts.com</a> for more info.
 </p>
  */
 class PluginChartAmcharts_v3{
   /**
+  <p>Set the path to commercial license folder in the commercial_license_path parameter to remove the text Js chart by amCharts. The path could look like "/js-librarys/amcharts_3.21.0".</p>
   <p>
   Including Javascript in html/head section (required). Also PluginChartAmcharts_v3 is included if using sync widget.
   </p>
   */
-  public static function widget_include(){
+  public static function widget_include($data){
+    $path = '/plugin/chart/amcharts_v3';
     $element = array();
-    $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amcharts.js', 'type' => 'text/javascript'));
+    if(wfArray::get($data, 'data/commercial_license_path')){
+      $path = wfArray::get($data, 'data/commercial_license_path');
+    }
+    $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/amcharts.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/serial.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amstock.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js', 'type' => 'text/javascript'));
@@ -129,7 +135,4 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', $code);
     wfDocument::renderElement($element);
   }
-
-  
-  
 }
