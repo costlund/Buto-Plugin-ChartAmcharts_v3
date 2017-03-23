@@ -67,6 +67,7 @@ class PluginChartAmcharts_v3{
   </p>
    */
   public function widget_serial($data){
+    //wfHelp::yml_dump($data);
     wfPlugin::includeonce('wf/array');
     if(isset($data['data'])){
       $data = new PluginWfArray($data['data']);
@@ -94,6 +95,25 @@ class PluginChartAmcharts_v3{
       wfPlugin::includeonce('wf/mysql');
       $mysql =new PluginWfMysql();
       $mysql->open($data->get('mysql_conn'));
+      
+      if(strstr($data->get('mysql_query'), ';')){
+        /**
+         * Run multiple SQL where last one is a select and others could be data transfer queries.
+         */
+        $sql = preg_split('/;/', $data->get('mysql_query'));
+        $temp = array();
+        foreach ($sql as $key => $value) {
+          $value = trim($value);
+          if(!$value){continue;}
+          $temp[] = $value;
+        }
+        $sql = $temp;
+        foreach ($sql as $key => $value) {
+          if($key >= sizeof($sql)-1){break;}
+          $mysql->runSql($value);
+        }
+        $data->set('mysql_query', $sql[sizeof($sql)-1]);
+      }
       $dataProvider = $mysql->runSql($data->get('mysql_query'), null);
       $data->set('chart/data/dataProvider', $dataProvider['data']);
     }
@@ -110,12 +130,27 @@ class PluginChartAmcharts_v3{
       $data->set(null, $obj->$method($data->get()));
     }
     /**
+     * Get json.
+     */
+    $json = json_encode($data->get('chart/data'));
+    /**
+     * Run javascript method around data before render.
+     */
+    if(!$data->get('js_method')){
+      //$script = $data->get('js_method')."()";
+      //wfDocument::renderElement(array(wfDocument::createHtmlElement('script', $script)));
+      $script = 'var amcharts_obj_'.$data->get('chart/id').' = AmCharts.makeChart("amcharts_container_'.$data->get('chart/id').'", '.$json.');';
+    }else{
+      $script = 'var amcharts_obj_'.$data->get('chart/id').' = AmCharts.makeChart("amcharts_container_'.$data->get('chart/id').'", '.$data->get('js_method').'('.$json.'));';
+    }
+    
+    
+    /**
      * Create elements.
      */
     $element = array();
-    $element[] = wfDocument::createHtmlElement('div', '', array('id' => $data->get('chart/id'), 'style' => $data->get('chart/style')));
-    $json = json_encode($data->get('chart/data'));
-    $element[] = wfDocument::createHtmlElement('script', 'var '.$data->get('chart/id').' = AmCharts.makeChart("'.$data->get('chart/id').'", '.$json.');', array('type' => 'text/javascript'));
+    $element[] = wfDocument::createHtmlElement('div', '', array('id' => 'amcharts_container_'.$data->get('chart/id'), 'style' => $data->get('chart/style')));
+    $element[] = wfDocument::createHtmlElement('script', $script, array('type' => 'text/javascript'));
     wfDocument::renderElement($element);
   }
   /**
@@ -135,4 +170,7 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', $code);
     wfDocument::renderElement($element);
   }
+
+  
+  
 }
