@@ -12,6 +12,14 @@ class PluginChartAmcharts_v3{
   /**
   <p>Set the path to commercial license folder in the commercial_license_path parameter to remove the text Js chart by amCharts. The path could look like "/js-librarys/amcharts_3.21.0".</p>
   <p>
+  Set param export to true if export functionality is needed. Note that graph json data also need param export to be set properly.
+  </p>
+  #code-yml#
+  export:
+    enabled: true
+    fileName: graph_export
+  #code#
+  <p>
   Including Javascript in html/head section (required). Also PluginChartAmcharts_v3 is included if using sync widget.
   </p>
   */
@@ -21,10 +29,18 @@ class PluginChartAmcharts_v3{
     if(wfArray::get($data, 'data/commercial_license_path')){
       $path = wfArray::get($data, 'data/commercial_license_path');
     }
+    $export = false;
+    if(wfArray::get($data, 'data/export')){
+      $export = true;
+    }
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/amcharts.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/serial.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amstock.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js', 'type' => 'text/javascript'));
+    if($export){
+      $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/plugins/export/export.min.js', 'type' => 'text/javascript'));
+      $element[] = wfDocument::createHtmlElement('link', null, array('href' => '/plugin/chart/amcharts_v3/amcharts/plugins/export/export.css', 'type' => 'text/css', 'rel' => 'stylesheet'));
+    }
     wfDocument::renderElement($element);
   }
   /**
