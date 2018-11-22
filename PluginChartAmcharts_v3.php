@@ -96,6 +96,18 @@ class PluginChartAmcharts_v3{
       $data->set(null, $widget->get());
     }
     /**
+     * Method before mysql.
+     */
+    if($data->get('method_before_mysql')){
+      /**
+       * Run method before for some modification about MySql.
+       */
+      wfPlugin::includeonce($data->get('method_before_mysql/plugin'));
+      $obj = wfSettings::getPluginObj($data->get('method_before_mysql/plugin'));
+      $method = $data->get('method_before_mysql/method');
+      $data->set(null, $obj->$method($data->get()));
+    }
+    /**
      * Get data from MySql.
      */
     if($data->get('mysql_conn') && $data->get('mysql_query')){
