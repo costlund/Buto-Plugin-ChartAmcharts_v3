@@ -10,6 +10,9 @@ plugin:
   -
     name: wf/mysql
     version: '1.1'
+  -
+    name: include/js
+    version: '1.0'
 sys:
   -
     name: mercury
@@ -17,7 +20,6 @@ sys:
       - '1.0'
 php:
   - '7.2'
-author: null
+author: Claes Östlund
 links:
-  Github: 'https://github.com'
 description: ''

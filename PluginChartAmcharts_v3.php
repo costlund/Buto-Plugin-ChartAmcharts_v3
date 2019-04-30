@@ -1,13 +1,4 @@
 <?php
-/**
-<p>
-Amcharts.
-</p>
-<p>If purchasing a commercial license one could just point at the installation path in the include widget.</p>
-<p>
-Visit <a href="http://www.amcharts.com/" target="_blank">www.amcharts.com</a> for more info.
-</p>
- */
 class PluginChartAmcharts_v3{
   /**
   <p>Set the path to commercial license folder in the commercial_license_path parameter to remove the text Js chart by amCharts. The path could look like "/js-librarys/amcharts_3.21.0".</p>
@@ -36,7 +27,8 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/amcharts.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/serial.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amstock.js', 'type' => 'text/javascript'));
-    $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js', 'type' => 'text/javascript'));
+    wfPlugin::enable('include/js');
+    $element[] = wfDocument::createWidget('include/js', 'include', array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js'));    
     if($export){
       $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/plugins/export/export.min.js', 'type' => 'text/javascript'));
       $element[] = wfDocument::createHtmlElement('link', null, array('href' => '/plugin/chart/amcharts_v3/amcharts/plugins/export/export.css', 'type' => 'text/css', 'rel' => 'stylesheet'));
