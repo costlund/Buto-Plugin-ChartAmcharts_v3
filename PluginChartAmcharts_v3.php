@@ -1,22 +1,7 @@
 <?php
 class PluginChartAmcharts_v3{
-  /**
-  <p>Set the path to commercial license folder in the commercial_license_path parameter to remove the text Js chart by amCharts. The path could look like "/js-librarys/amcharts_3.21.0".</p>
-  <p>
-  Set param export to true if export functionality is needed. Note that graph json data also need param export to be set properly.
-  </p>
-  #code-yml#
-  export:
-    enabled: true
-    fileName: graph_export
-  #code#
-  <p>
-  Including Javascript in html/head section (required). Also PluginChartAmcharts_v3 is included if using sync widget.
-  </p>
-  */
-  public static function widget_include($data){
+  public function widget_include($data){
     $path = '/plugin/chart/amcharts_v3';
-    $element = array();
     if(wfArray::get($data, 'data/commercial_license_path')){
       $path = wfArray::get($data, 'data/commercial_license_path');
     }
@@ -24,7 +9,9 @@ class PluginChartAmcharts_v3{
     if(wfArray::get($data, 'data/export')){
       $export = true;
     }
+    $element = array();
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/amcharts.js', 'type' => 'text/javascript'));
+    $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/pie.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/serial.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amstock.js', 'type' => 'text/javascript'));
     wfPlugin::enable('include/js');
@@ -75,7 +62,6 @@ class PluginChartAmcharts_v3{
   </p>
    */
   public function widget_serial($data){
-    //wfHelp::yml_dump($data);
     wfPlugin::includeonce('wf/array');
     if(isset($data['data'])){
       $data = new PluginWfArray($data['data']);
@@ -115,7 +101,6 @@ class PluginChartAmcharts_v3{
       wfPlugin::includeonce('wf/mysql');
       $mysql =new PluginWfMysql();
       $mysql->open($data->get('mysql_conn'));
-      
       if(strstr($data->get('mysql_query'), ';')){
         /**
          * Run multiple SQL where last one is a select and others could be data transfer queries.
@@ -157,14 +142,10 @@ class PluginChartAmcharts_v3{
      * Run javascript method around data before render.
      */
     if(!$data->get('js_method')){
-      //$script = $data->get('js_method')."()";
-      //wfDocument::renderElement(array(wfDocument::createHtmlElement('script', $script)));
       $script = 'var amcharts_obj_'.$data->get('chart/id').' = AmCharts.makeChart("amcharts_container_'.$data->get('chart/id').'", '.$json.');';
     }else{
       $script = 'var amcharts_obj_'.$data->get('chart/id').' = AmCharts.makeChart("amcharts_container_'.$data->get('chart/id').'", '.$data->get('js_method').'('.$json.'));';
     }
-    
-    
     /**
      * Create elements.
      */
@@ -190,7 +171,4 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', $code);
     wfDocument::renderElement($element);
   }
-
-  
-  
 }
