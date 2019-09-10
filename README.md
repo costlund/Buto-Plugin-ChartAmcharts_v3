@@ -98,3 +98,7 @@ data:
             enabled: true
             fileName: graph_export
 ```
+
+## Demo page
+
+Check link to view demo page.

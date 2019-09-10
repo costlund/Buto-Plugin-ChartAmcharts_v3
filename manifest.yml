@@ -26,4 +26,5 @@ php:
 author: Claes Östlund
 links:
   'amcharts.com': 'https://www.amcharts.com/'
+  'Demo': '/?webmaster_plugin=chart/amcharts_v3&page=demo'
 description: ''

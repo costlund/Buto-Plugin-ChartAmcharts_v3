@@ -171,4 +171,10 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', $code);
     wfDocument::renderElement($element);
   }
+  public function page_demo(){
+    wfPlugin::enable('chart/amcharts_v3');
+    wfPlugin::includeonce('wf/yml');
+    $element = new PluginWfYml(__DIR__.'/page/demo.yml');
+    wfDocument::renderElement($element->get());
+  }
 }
