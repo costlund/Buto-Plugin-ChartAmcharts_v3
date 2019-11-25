@@ -102,3 +102,18 @@ data:
 ## Demo page
 
 Check link to view demo page.
+
+## Sync
+
+Use sync widget to make graphs to synchronize.
+
+```
+type: widget
+data:
+  plugin: chart/amcharts_v3
+  method: sync
+  data:
+    charts:
+      - amcharts_obj_graph_1
+      - amcharts_obj_graph_2
+```
