@@ -2,20 +2,20 @@ version: '1.1'
 history:
   '1.1':
     date: '2019-09-04'
-    description: Add pie chart support.
+    description: 'Add pie chart support.'
   '1.0':
     date: '2019-01-09'
     description: 'First version.'
 plugin:
   -
     name: wf/array
-    version: 1.0.1
+    version: 1.2.0
   -
     name: wf/mysql
-    version: '1.1'
+    version: 1.11.0
   -
     name: include/js
-    version: '1.0'
+    version: 1.1.0
 sys:
   -
     name: mercury
@@ -23,8 +23,8 @@ sys:
       - '1.0'
 php:
   - '7.2'
-author: Claes Östlund
+author: 'Claes Östlund'
 links:
-  'amcharts.com': 'https://www.amcharts.com/'
-  'Demo': '/?webmaster_plugin=chart/amcharts_v3&page=demo'
+  amcharts.com: 'https://www.amcharts.com/'
+  Demo: '/?webmaster_plugin=chart/amcharts_v3&page=demo'
 description: ''
