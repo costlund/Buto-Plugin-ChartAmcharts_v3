@@ -18,6 +18,8 @@ data:
 
 ## Example
 
+https://www.amcharts.com/demos-v3/
+
 ### Pie chart
 
 #### Javascript.
