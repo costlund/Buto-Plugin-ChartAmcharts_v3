@@ -1,12 +1,6 @@
 -
   type: h1
-  innerHTML: Demo page
--
-  type: h2
-  innerHTML: 'chart/amcharts_v3 - include'
--
-  type: h2
-  innerHTML: 'chart/amcharts_v3 - serial'
+  innerHTML: Pie
 -
   type: widget
   data:

@@ -14,6 +14,8 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/pie.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/serial.js', 'type' => 'text/javascript'));
     $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/amcharts/amstock.js', 'type' => 'text/javascript'));
+    $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/ammap.js', 'type' => 'text/javascript'));
+    $element[] = wfDocument::createHtmlElement('script', null, array('src' => $path.'/amcharts/maps/js/worldLow.js', 'type' => 'text/javascript'));
     wfPlugin::enable('include/js');
     $element[] = wfDocument::createWidget('include/js', 'include', array('src' => '/plugin/chart/amcharts_v3/PluginChartAmcharts_v3.js'));    
     if($export){
@@ -171,10 +173,22 @@ class PluginChartAmcharts_v3{
     $element[] = wfDocument::createHtmlElement('script', $code);
     wfDocument::renderElement($element);
   }
-  public function page_demo(){
+  public function page_demo_pie(){
     wfPlugin::enable('chart/amcharts_v3');
     wfPlugin::includeonce('wf/yml');
-    $element = new PluginWfYml(__DIR__.'/page/demo.yml');
+    $element = new PluginWfYml(__DIR__.'/page/demo_pie.yml');
+    wfDocument::renderElement($element->get());
+  }
+  public function page_demo_map(){
+    wfPlugin::enable('chart/amcharts_v3');
+    wfPlugin::includeonce('wf/yml');
+    $element = new PluginWfYml(__DIR__.'/page/demo_map.yml');
+    wfDocument::renderElement($element->get());
+  }
+  public function page_demo_serial(){
+    wfPlugin::enable('chart/amcharts_v3');
+    wfPlugin::includeonce('wf/yml');
+    $element = new PluginWfYml(__DIR__.'/page/demo_serial.yml');
     wfDocument::renderElement($element->get());
   }
 }
