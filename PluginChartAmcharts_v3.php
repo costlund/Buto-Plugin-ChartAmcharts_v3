@@ -53,7 +53,7 @@ class PluginChartAmcharts_v3{
       $element[] = wfDocument::createHtmlElement('script', null, array('src' => '/plugin/chart/amcharts_v3/widget.stock_example_data.js', 'type' => 'text/javascript'));
     }
     $json = json_encode($data->get('data'));
-    $json = str_replace('"chartData"', 'chartData', $json);
+    $json = wfPhpfunc::str_replace('"chartData"', 'chartData', $json);
     $element[] = wfDocument::createHtmlElement('script', 'var amchart_'.$data->get('id').' = AmCharts.makeChart("'.$data->get('id').'", '.$json.');', array('type' => 'text/javascript'));
     wfDocument::renderElement($element);
   }
@@ -103,7 +103,7 @@ class PluginChartAmcharts_v3{
       wfPlugin::includeonce('wf/mysql');
       $mysql =new PluginWfMysql();
       $mysql->open($data->get('mysql_conn'));
-      if(strstr($data->get('mysql_query'), ';')){
+      if(wfPhpfunc::strstr($data->get('mysql_query'), ';')){
         /**
          * Run multiple SQL where last one is a select and others could be data transfer queries.
          */
