@@ -20,7 +20,10 @@ If purchasing a commercial license one could just point at the installation path
 ```
 
 ## Online examples
+```
 https://www.amcharts.com/demos-v3/
+https://www.amcharts.com/demos-v3/column-with-rotated-series-v3/ (then use Open in links)
+```
 
 ## Demos
 Check folder /page for yml data.
