@@ -191,4 +191,10 @@ class PluginChartAmcharts_v3{
     $element = new PluginWfYml(__DIR__.'/page/demo_serial.yml');
     wfDocument::renderElement($element->get());
   }
+  public function page_demo_serial2(){
+    wfPlugin::enable('chart/amcharts_v3');
+    wfPlugin::includeonce('wf/yml');
+    $element = new PluginWfYml(__DIR__.'/page/demo_serial2.yml');
+    wfDocument::renderElement($element->get());
+  }
 }
