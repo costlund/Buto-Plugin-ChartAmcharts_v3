@@ -8,9 +8,13 @@
 
 
 
+
+
 <a name="key_1"></a>
 
 ## Usage
+
+
 
 
 
@@ -18,12 +22,16 @@
 
 ### Online examples
 
+
+
 <pre><code>https://www.amcharts.com/demos-v3/
 https://www.amcharts.com/demos-v3/column-with-rotated-series-v3/ (then use Open in links)</code></pre>
 
 <a name="key_1_1"></a>
 
 ### Example
+
+
 
 <ul>
 <li>2 left axis.</li>
@@ -119,6 +127,8 @@ data:
 
 ## Pages
 
+
+
 <p>Check folder /page for yml data.</p>
 <pre><code>http://localhost/?webmaster_plugin=chart/amcharts_v3&amp;page=demo_map</code></pre>
 
@@ -128,9 +138,13 @@ data:
 
 
 
+
+
 <a name="key_2_1"></a>
 
 ### page_demo_pie
+
+
 
 
 
@@ -140,9 +154,13 @@ data:
 
 
 
+
+
 <a name="key_2_3"></a>
 
 ### page_demo_serial2
+
+
 
 
 
@@ -152,9 +170,13 @@ data:
 
 
 
+
+
 <a name="key_3_0"></a>
 
 ### widget_include
+
+
 
 <pre><code>type: widget
 data:
@@ -172,15 +194,21 @@ data:
 
 
 
+
+
 <a name="key_3_2"></a>
 
 ### widget_stock
 
 
 
+
+
 <a name="key_3_3"></a>
 
 ### widget_sync
+
+
 
 <p>Use sync widget to make graphs to synchronize.</p>
 <pre><code>type: widget
@@ -198,15 +226,21 @@ data:
 
 
 
+
+
 <a name="key_5"></a>
 
 ## Construct
 
 
 
+
+
 <a name="key_6"></a>
 
 ## Methods
+
+
 
 
 
